@@ -23,7 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [IndexController::class, 'index'])->name('dashboard');
     Route::post('/dashboard', [IndexController::class, 'answers'])->name('answers');
     Route::post('/dashboard/user_answers', [IndexController::class, 'user_answers'])->name('user_answers');
-    Route::post('/dashboard/calendar', [IndexController::class, 'calendar'])->name('calendar');
+    //Route::post('/dashboard/calendar', [IndexController::class, 'calendar'])->name('calendar');
 }); 
 
 Route::middleware('auth')->group(function () {

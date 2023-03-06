@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('lessons', function (Blueprint $table) {
             $table->id();
             $table->foreignId('course_id');
-            $table->foreignId('season_id');
             $table->string('title');
             $table->string('description');
             $table->string('lesson_video');

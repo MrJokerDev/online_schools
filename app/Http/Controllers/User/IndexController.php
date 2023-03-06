@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Lessons;
 use App\Models\Questions;
 use App\Models\User;
 use App\Models\User_answers;
-use App\Models\User_lesson_create_times;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,11 +15,18 @@ class IndexController extends Controller
     public function index()
     {
         $id = Auth::user()->id;
-        $user = User::find($id);  
-        
+        $user = User::find(1);
+
+        foreach($user->courses as $user_courses){
+            $user_courses_id = $user_courses->id;
+        }
+
+        $user_lessons = Lessons::where('course_id', $user_courses_id)->first();
         $questions = Questions::paginate(1);
 
-        return view('dashboard', compact('user', 'questions'));
+        //dd($user_lessons);
+        
+        return view('dashboard', compact('user', 'questions', 'user_lessons'));
     }
 
     public function answers(Request $request)
@@ -44,7 +51,7 @@ class IndexController extends Controller
         return redirect("dashboard?page=$page");
     }
 
-    public function user_answers(Request $request)
+    public function user_answers()
     {
         $user_id = Auth::user()->id;
         $user = User::find($user_id);
@@ -53,24 +60,20 @@ class IndexController extends Controller
         $user->update([
             'result_test' => $user_answer
         ]);
-
-        return redirect('dashboard');
-    }
-
-    public function calendar(Request $request)
-    {
-        $user_lessons_day = User_lesson_create_times::create([
-            'user_id' => $request->user_id,
-            'first_lesson_day' => $request->first_lesson_day,
-            'second_lesson_day' => $request->second_lesson_day,
-            'third_lesson_day' => $request->third_lesson_day,
-        ]);
-
-        $user_status = User::where('id', $request->user_id)->first();
         
-        $user_status->update(['active_status' => 'active']);
-        
-        $user_lessons_day->save();
+        if($user_answer <= 40){
+            User::create([
+                'status' => 'junior'
+            ]);
+        }elseif($user_answer >= 40 && $user_answer <= 80){
+            User::create([
+                'status' => 'strong_junior'  
+            ]);
+        }elseif($user_answer > 80){
+            User::create([
+                'status' => 'middle'
+            ]);
+        }
 
         return redirect('dashboard');
     }

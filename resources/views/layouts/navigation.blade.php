@@ -25,10 +25,6 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
-                @php $users = DB::table('users')->get(); @endphp
-                @foreach($users as $user)
-                    <h3>{{ $user->last_seen }}</h3>
-                @endforeach
                 <div class="p-5">
                     <button
                         type="button"
