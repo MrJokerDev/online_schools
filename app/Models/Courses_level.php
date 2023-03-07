@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Courses_level extends Model
 {
     use HasFactory;
+    
 }

@@ -1,5 +1,7 @@
 <h1>Strong junior</h1>
-{{-- @foreach ($user_lesson as $lesson)
+
+@foreach ($lessons as $lesson)
+
 <div
   class="embed-responsive embed-responsive-16by9 relative w-full overflow-hidden"
   style="padding-top: 56.25%">
@@ -13,4 +15,4 @@
 </div>
 <h3>{{ $lesson->title }}</h3>
 <p>{{ $lesson->description }}</p>
-@endforeach --}}
+@endforeach

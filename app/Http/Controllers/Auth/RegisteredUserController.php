@@ -44,7 +44,7 @@ class RegisteredUserController extends Controller
         $user_count = User::where('first_name', '=', $request->first_name)
                 ->where('last_name', '=', $request->last_name)->count();
                 
-        $user_name = $user_name.'_'.$user_count+1;
+        $user_name = $user_name.'_'.$user_count;
 
         $user = User::create([
             'first_name' => $request->first_name,

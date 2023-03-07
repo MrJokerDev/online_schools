@@ -1,5 +1,7 @@
 <h1>Junior</h1>
-  {{-- <div
+@if ($lesson_level == 'junior')
+  @foreach ($lesson_level as $lesson)
+    <div
     class="embed-responsive embed-responsive-16by9 relative w-full overflow-hidden"
     style="padding-top: 56.25%">
       <iframe
@@ -12,4 +14,7 @@
   </div>
 
   <h1>{{ $user_lessons->title }}</h1>
-  <p>{{ $user_lessons->description }}</p> --}}
+  <p>{{ $user_lessons->description }}</p>
+  @endforeach
+
+  @endif

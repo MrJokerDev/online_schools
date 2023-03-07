@@ -18,18 +18,11 @@ class IndexController extends Controller
         $user_id = Auth::user()->id;
         $user = User::where('id', $user_id)->first();
         $questions = Questions::paginate(1);
-        
         $courses = Courses::where('id', $user->courses_id)->first();
+        $lessons = Lessons::where('course_id', $courses->id)->get();
         
-        foreach($courses->level as $course_level){
-            dd($user->status == $course_level->level);
-        };
-
-        return response()->json([
-            'level_course' => $courses->level
-        ]);
-        
-        return view('dashboard', compact('user', 'questions', 'courses', 'lessons'));
+        dd($lessons);
+        return view('dashboard', compact('user', 'questions', 'lessons'));
     }
 
     public function answers(Request $request)
