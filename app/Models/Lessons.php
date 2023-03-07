@@ -10,10 +10,9 @@ class Lessons extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
     protected $table = 'lessons';
-
     protected $fillable = [
-        'course_id',
         'title',
         'description',
         'lesson_video',
@@ -23,4 +22,10 @@ class Lessons extends Model
     {
         return $this->belongsToMany(Courses::class, 'lesson_id');
     }
+
+    public function level(): BelongsToMany
+    {
+        return $this->belongsToMany(Levels::class, 'level_lessons');
+    }
+
 }

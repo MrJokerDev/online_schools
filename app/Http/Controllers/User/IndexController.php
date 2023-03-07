@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Courses;
 use App\Models\Lessons;
 use App\Models\Questions;
 use App\Models\User;
@@ -14,19 +15,21 @@ class IndexController extends Controller
 {
     public function index()
     {
-        $id = Auth::user()->id;
-        $user = User::find(1);
-
-        foreach($user->courses as $user_courses){
-            $user_courses_id = $user_courses->id;
-        }
-
-        $user_lessons = Lessons::where('course_id', $user_courses_id)->first();
+        $user_id = Auth::user()->id;
+        $user = User::where('id', $user_id)->first();
         $questions = Questions::paginate(1);
-
-        //dd($user_lessons);
         
-        return view('dashboard', compact('user', 'questions', 'user_lessons'));
+        $courses = Courses::where('id', $user->courses_id)->first();
+        
+        foreach($courses->level as $course_level){
+            dd($user->status == $course_level->level);
+        };
+
+        return response()->json([
+            'level_course' => $courses->level
+        ]);
+        
+        return view('dashboard', compact('user', 'questions', 'courses', 'lessons'));
     }
 
     public function answers(Request $request)
@@ -52,29 +55,43 @@ class IndexController extends Controller
     }
 
     public function user_answers()
-    {
+    {   
+        
         $user_id = Auth::user()->id;
         $user = User::find($user_id);
+
 
         $user_answer = User_answers::where('user_id', '=', $user_id)->where('ball', '>', 0)->sum('ball');
         $user->update([
             'result_test' => $user_answer
         ]);
         
+        
         if($user_answer <= 40){
-            User::create([
+            $user->update([
                 'status' => 'junior'
             ]);
         }elseif($user_answer >= 40 && $user_answer <= 80){
-            User::create([
-                'status' => 'strong_junior'  
+            $user->update([
+                'status' => 'strong_junior'
             ]);
         }elseif($user_answer > 80){
-            User::create([
+            $user->update([
                 'status' => 'middle'
             ]);
         }
 
+        return redirect('dashboard');
+    }
+
+    public function user_courses(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $user = User::find($user_id);
+        
+        $user->update([
+            'courses_id' => $request->courses
+        ]);
         return redirect('dashboard');
     }
 

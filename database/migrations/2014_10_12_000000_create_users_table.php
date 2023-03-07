@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('courses_id')->nullable();
-            $table->string('nik_name')->unique();
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->string('nik_name')->unique()->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->integer('result_test')->default(0);
             $table->enum('status', ['junior', 'strong_junior', 'middle'])->default('junior');
             $table->enum('active_status', ['active', 'inactive'])->default('inactive');
