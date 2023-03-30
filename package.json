@@ -5,6 +5,7 @@
         "build": "vite build"
     },
     "devDependencies": {
+        "@tailwindcss/aspect-ratio": "^0.4.2",
         "@tailwindcss/forms": "^0.5.2",
         "alpinejs": "^3.4.2",
         "autoprefixer": "^10.4.13",
@@ -15,6 +16,8 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "@inertiajs/inertia": "^0.11.1",
+        "@inertiajs/inertia-vue": "^0.8.0",
         "flowbite": "^1.6.3",
         "flowbite-datepicker": "^1.2.2"
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Courses;
 use App\Models\Lessons;
+use App\Models\Levels;
 use App\Models\Questions;
 use App\Models\User;
 use App\Models\User_answers;
@@ -15,34 +16,55 @@ class IndexController extends Controller
 {
     public function index()
     {
-        $user_id = Auth::user()->id;
-        $user = User::where('id', $user_id)->first();
+        $user = Auth::user();
         $questions = Questions::paginate(1);
-        $courses = Courses::where('id', $user->courses_id)->first();
-        $lessons = Lessons::where('course_id', $courses->id)->get();
         
-        dd($lessons);
-        return view('dashboard', compact('user', 'questions', 'lessons'));
+        $courses = Courses::all();
+        //dd($courses);   
+        $lessons = [];
+        $user_courses = Courses::where('id', $user->courses_id)->first();
+        
+        if($user->result_test != 0){
+            $lessons = Lessons::where([
+                ['course_id', '=', $user_courses->course_id],
+                ['level_id', '=', $user_courses->level_id],
+            ])->paginate(1);
+        }
+        
+        return view('dashboard', compact('user', 'questions', 'lessons', 'courses', 'user_courses'));
+    }
+
+    public function courses_info()
+    {
+        return view('courses_info');
     }
 
     public function answers(Request $request)
     {
         $user_id = Auth::user()->id;
         $questions_id = Questions::all();
-        
+
         foreach($questions_id as $id){
             if($id->correct_answers == $request->answer){
                 $user_answer = User_answers::create([
                     'user_id' => $user_id,
-                    'questions_id' => $request->questions_id,
+                    'questions_id' => $request->question_id,
                     'user_answer' => $request->answer,
                     'ball' => 10
+                ]);
+                $user_answer->save();
+            }else{
+                $user_answer = User_answers::create([
+                    'user_id' => $user_id,
+                    'questions_id' => $request->question_id,
+                    'user_answer' => $request->answer,
+                    'ball' => 0
                 ]);
                 $user_answer->save();
             }
         }
         
-        $page = $request->questions_id + 1;
+        $page = $request->question_id + 1;
         
         return redirect("dashboard?page=$page");
     }
@@ -62,15 +84,15 @@ class IndexController extends Controller
         
         if($user_answer <= 40){
             $user->update([
-                'status' => 'junior'
+                'level' => 1
             ]);
         }elseif($user_answer >= 40 && $user_answer <= 80){
             $user->update([
-                'status' => 'strong_junior'
+                'level' => 2
             ]);
-        }elseif($user_answer > 80){
+        }elseif($user_answer >= 100){
             $user->update([
-                'status' => 'middle'
+                'level' => 3
             ]);
         }
 

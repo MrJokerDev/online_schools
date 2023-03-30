@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Monolog\Level;
 
 class Courses extends Model
 {
@@ -23,9 +22,9 @@ class Courses extends Model
         return $this->belongsTo(User::class, 'courses_id');
     }
 
-    public function level(): BelongsToMany
+    public function level(): BelongsToMany 
     {
-        return $this->belongsToMany(Levels::class, 'courses_levels');
+        return $this->belongsToMany(Levels::class, 'course_levels', 'courses_id', 'level_id');
     }
 
 }

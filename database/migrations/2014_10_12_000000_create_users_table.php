@@ -17,12 +17,13 @@ return new class extends Migration
             $table->string('nik_name')->unique()->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
+            $table->string('foto')->nullable();
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->integer('result_test')->default(0);
-            $table->enum('status', ['junior', 'strong_junior', 'middle'])->default('junior');
-            $table->enum('active_status', ['active', 'inactive'])->default('inactive');
+            $table->integer('level')->default(0);
+            $table->enum('status', ['inactive', 'active'])->default('active');
             $table->enum('payment_status', ['active', 'inactive'])->default('inactive');
             $table->timestamp('last_seen')->nullable();
             $table->rememberToken();

@@ -11,7 +11,6 @@
       </iframe>
   </div>
 
-  <h1>{{ $lesson->title }}</h1>
   <p>{!! html_entity_decode($lesson->description) !!}</p>
 @endforeach
 

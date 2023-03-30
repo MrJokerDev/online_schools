@@ -16,7 +16,9 @@ class Questions extends Model
     protected $fillable = [
         'id',
         'questions',
-        'correct_answers'
+        'correct_answers',
+        'description',
+        'type'
     ];
 
     public function answer(): HasMany

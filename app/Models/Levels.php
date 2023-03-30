@@ -17,13 +17,8 @@ class Levels extends Model
         'level'
     ];
 
-    public function lessons(): BelongsToMany
+    public function courses(): BelongsToMany 
     {
-        return $this->belongsToMany(Lessons::class, 'level_lessons');
-    }
-
-    public function courses(): BelongsToMany
-    {
-        return $this->belongsToMany(Courses::class, 'courses_level');
+        return $this->belongsToMany(Courses::class, 'course_levels', 'courses_id', 'level_id');
     }
 }

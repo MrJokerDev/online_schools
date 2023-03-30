@@ -14,14 +14,6 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/datepicker.min.js"></script>
         
-        <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
-        <!-- Styles -->
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
-        <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}" defer></script>
-        
-        <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
 
@@ -43,7 +35,7 @@
             </header>
 
             <!-- Page Content -->
-            <main class="bg-gray-100 dark:bg-gray-800">
+            <main class="bg-gray-100 dark:bg-gray-700 min-h-screen">
                 {{ $slot }}
             </main>
         </div>

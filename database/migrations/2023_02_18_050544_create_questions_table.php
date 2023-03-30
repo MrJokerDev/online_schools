@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('questions');
             $table->string('correct_answers');
+            $table->string('description')->nullable();
+            $table->string('type')->nullable();
             $table->timestamps();
         });
     }
