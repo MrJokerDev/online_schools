@@ -18,16 +18,16 @@ class IndexController extends Controller
     {
         $user = Auth::user();
         $questions = Questions::paginate(1);
-        
+        //dd($user->courses_id);
         $courses = Courses::all();
         //dd($courses);   
         $lessons = [];
         $user_courses = Courses::where('id', $user->courses_id)->first();
-        
+        //dd($user_courses);
         if($user->result_test != 0){
             $lessons = Lessons::where([
-                ['course_id', '=', $user_courses->course_id],
-                ['level_id', '=', $user_courses->level_id],
+                ['course_id', '=', $user_courses->id],
+                ['level_id', '=', $user->level],
             ])->paginate(1);
         }
         
@@ -103,7 +103,7 @@ class IndexController extends Controller
     {
         $user_id = Auth::user()->id;
         $user = User::find($user_id);
-        
+
         $user->update([
             'courses_id' => $request->courses
         ]);
