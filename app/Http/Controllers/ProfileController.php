@@ -19,7 +19,7 @@ class ProfileController extends Controller
     public function edit(Request $request): View
     {
         $user_level = Levels::where('id', $request->user()->level)->first();
-        $user_course = Courses::where('course_id', $request->user()->courses_id)->first();
+        $user_course = Courses::where('id', $request->user()->courses_id)->first();
 
         return view('profile.edit', [
             'user' => $request->user(),
