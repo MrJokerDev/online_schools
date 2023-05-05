@@ -17,21 +17,24 @@ class IndexController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $questions = Questions::paginate(1);
-        //dd($user->courses_id);
-        $courses = Courses::all();
-        //dd($courses);   
-        $lessons = [];
-        $user_courses = Courses::where('id', $user->courses_id)->first();
-        //dd($user_courses);
-        if($user->result_test != 0){
-            $lessons = Lessons::where([
-                ['course_id', '=', $user_courses->id],
-                ['level_id', '=', $user->level],
-            ])->paginate(1);
+        if($user->email_verified_at === null){
+            return view('email_verify', compact('user'));
+        }else{
+            $questions = Questions::paginate(1);
+            $courses = Courses::all();
+            $lessons = [];
+            $user_courses = Courses::where('id', $user->courses_id)->first();
+            
+            if($user->result_test != 0){
+                $lessons = Lessons::where([
+                    ['course_id', '=', $user_courses->id],
+                    ['level_id', '=', $user->level],
+                ])->paginate(1);
+            }
+            
+            return view('dashboard', compact('user', 'questions', 'lessons', 'courses', 'user_courses'));
         }
         
-        return view('dashboard', compact('user', 'questions', 'lessons', 'courses', 'user_courses'));
     }
 
     public function courses_info()

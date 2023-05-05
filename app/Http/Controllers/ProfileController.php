@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Monolog\Level;
 
 class ProfileController extends Controller
 {
@@ -20,11 +21,13 @@ class ProfileController extends Controller
     {
         $user_level = Levels::where('id', $request->user()->level)->first();
         $user_course = Courses::where('id', $request->user()->courses_id)->first();
+        $levels = Levels::all();
 
         return view('profile.edit', [
             'user' => $request->user(),
             'user_level' => $user_level,
-            'user_course' => $user_course
+            'user_course' => $user_course,
+            'levels' => $levels
         ]);
     }
 
